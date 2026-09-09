@@ -69,6 +69,34 @@ function render_project_mark($icon, string $seed = '', int $size = 64): string {
     'clinical' => '<path d="M6 34 H20 L26 18 L34 48 L40 28 L46 34 H58" />
       <circle cx="46" cy="34" r="2.4" fill="currentColor" stroke="none" />',
 
+    // Survivorship, lifestyle & wellbeing platforms (patient-facing, ongoing
+    // care rather than acute/diagnostic — kept visually distinct from 'clinical').
+    'wellbeing' => '<path d="M32 48 C14 36 8 22 18 14 C25 9 32 15 32 15 C32 15 39 9 46 14 C56 22 50 36 32 48 Z" />
+      <path d="M23 27 L29 33 L42 20" />',
+	  
+	  // Children's / education / block-based learning platforms.
+	  'learn' => '<rect x="8" y="30" width="20" height="16" rx="2" />
+	    <rect x="34" y="8" width="20" height="16" rx="2" />
+		  <path d="M28 38 H34 V16" />
+		  <path d="M48 30 V38" /><path d="M44 34 H52" />',
+		
+	  // Academic administration / student–supervisor workflow platforms.
+	  'academic' => '<path d="M32 10 L58 22 L32 34 L6 22 Z" />
+		  <path d="M14 24 V32 C14 36 22 40 32 40 C42 40 50 36 50 32 V24" stroke-opacity="0.5" />
+		  <path d="M32 34 V44" />
+		  <circle cx="32" cy="47" r="2.2" fill="currentColor" stroke="none" />',
+		
+	  // Lost-and-found / campus item registry & search platforms.
+	  'lostfound' => '<rect x="14" y="26" width="20" height="16" rx="2" />
+		  <path d="M20 26 V20 C20 17 22 15 24 15 C26 15 28 17 28 20 V26" />
+		  <circle cx="42" cy="36" r="9" />
+		  <path d="M48.5 42.5 L56 50" />',
+		
+	  // Scholarship / grant / award & recognition programs.
+	  'award' => '<circle cx="32" cy="24" r="14" />
+		  <circle cx="32" cy="24" r="3" fill="currentColor" stroke="none" />
+		  <path d="M23 36 L16 54 L32 45 L48 54 L41 36" />',
+
     // Mathematics, dynamical systems, control & stability projects.
     'dynamics' => '<path d="M32 32 C 32 20, 20 20, 20 30 C 20 42, 40 42, 40 28 C 40 16, 26 14, 22 22" />
       <circle cx="32" cy="32" r="2.6" fill="currentColor" stroke="none" />
