@@ -104,6 +104,21 @@ function render_project_mark($icon, string $seed = '', int $size = 64): string {
   		<path d="M16 36 H30" />
   		<path d="M42 44 L54 32 L58 36 L46 48 Z" />',
 
+	  // Document / past-paper / resource repository platforms.
+	  'repository' => '<rect x="12" y="16" width="28" height="36" rx="2" stroke-opacity="0.4" />
+		<rect x="16" y="12" width="28" height="36" rx="2" stroke-opacity="0.7" />
+		<rect x="20" y="8" width="28" height="36" rx="2" />
+		<path d="M26 18 H42" /><path d="M26 26 H42" /><path d="M26 34 H36" />
+		<circle cx="46" cy="42" r="8" fill="var(--bg)" />
+		<path d="M42.5 42 L45.5 45 L50 39" />',
+		
+	// Inventory, equipment & asset tracking / registers.
+	'inventory' => '<rect x="16" y="10" width="32" height="44" rx="2" />
+		<path d="M24 10 V6 H40 V10" />
+		<path d="M23 22 L27 26 L34 18" />
+		<path d="M23 34 H26" /><rect x="30" y="31" width="4" height="4" /><path d="M40 34 H41" />
+		<path d="M23 44 H41" stroke-opacity="0.5" />',
+
     // Mathematics, dynamical systems, control & stability projects.
     'dynamics' => '<path d="M32 32 C 32 20, 20 20, 20 30 C 20 42, 40 42, 40 28 C 40 16, 26 14, 22 22" />
       <circle cx="32" cy="32" r="2.6" fill="currentColor" stroke="none" />
