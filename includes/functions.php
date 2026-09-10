@@ -84,6 +84,12 @@ function project_mark_inner($icon, string $seed = ''): string {
       <path d="M20 46 H44" />
       <path d="M28 38 V46" /><path d="M36 38 V46" />',
 
+    // Research repositories, innovation pipelines & technology transfer platforms.
+    'research' => '<path d="M32 10 C22 10 16 18 16 26 C16 32 19 36 23 39 V46 H41 V39 C45 36 48 32 48 26 C48 18 42 10 32 10 Z" />
+      <path d="M26 52 H38" />
+      <path d="M28 46 H36" />
+      <path d="M32 4 V8" /><path d="M12 20 L16 22" /><path d="M52 20 L48 22" />',
+
     // Construction / physical build projects.
     'construction' => '<path d="M10 54 V26 L32 10 L54 26 V54" />
       <path d="M22 54 V36 H42 V54" />',
