@@ -8,5 +8,6 @@
     </ul>
   </div>
 </footer>
+<script src="assets/js/reveal.js" defer></script>
 </body>
 </html>
