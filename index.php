@@ -12,8 +12,13 @@ $sector_count = count(array_unique(array_column($projects, 'sector')));
 <main>
 
   <section class="hero">
+    <div class="hero-slideshow" aria-hidden="true">
+      <div class="hero-slide hero-slide-1"></div>
+      <div class="hero-slide hero-slide-2"></div>
+      <div class="hero-slide hero-slide-3"></div>
+    </div>
     <div class="container">
-      <div class="hero-copy">
+      <div class="hero-copy reveal">
         <span class="ref">Manage Project</span>
         <h1>Several projects, planned in the open.</h1>
         <p class="lede">This is a working record of project management practice, how each engagement was scoped, sequenced, and delivered. Every project below has a live, interactive version you can step through yourself.</p>
@@ -36,7 +41,7 @@ $sector_count = count(array_unique(array_column($projects, 'sector')));
           </div>
         </div>
       </div>
-      <div class="hero-diagram corner-frame" aria-hidden="true">
+      <div class="hero-diagram corner-frame reveal" style="transition-delay: 140ms" aria-hidden="true">
         <svg viewBox="0 0 200 200" fill="none" stroke="#2f5cf6" stroke-width="1.4">
           <circle cx="100" cy="100" r="70" stroke-opacity="0.35"/>
           <circle cx="100" cy="100" r="45" stroke-opacity="0.55"/>
@@ -52,7 +57,7 @@ $sector_count = count(array_unique(array_column($projects, 'sector')));
 
   <section class="section" id="approach">
     <div class="container">
-      <div class="section-head">
+      <div class="section-head reveal">
         <div>
           <span class="ref">Method</span>
           <h2>The same three moves, on every project.</h2>
@@ -60,20 +65,20 @@ $sector_count = count(array_unique(array_column($projects, 'sector')));
         <p class="section-note">Industries change. Team sizes change. The sequence that keeps a project on schedule doesn't.</p>
       </div>
       <div class="pillars">
-        <div class="pillar">
+        <div class="pillar reveal" style="transition-delay: 0ms">
           <span class="ref">01 — Plan</span>
           <h3>Find the real constraint</h3>
-          <p>Every project has one thing that actually limits the schedule; a permit, a vendor, a hard date. Planning starts by naming it, not by building a generic timeline.</p>
+          <p>Every project has one thing that actually limits the schedule — a permit, a vendor, a hard date. Planning starts by naming it, not by building a generic timeline.</p>
         </div>
-        <div class="pillar">
+        <div class="pillar reveal" style="transition-delay: 110ms">
           <span class="ref">02 — Run</span>
           <h3>Make status visible</h3>
           <p>Delays are cheap to fix early and expensive to fix late. A shared, honest view of status is what makes early fixes possible.</p>
         </div>
-        <div class="pillar">
+        <div class="pillar reveal" style="transition-delay: 220ms">
           <span class="ref">03 — Close</span>
           <h3>Hand off cleanly</h3>
-          <p>A project isn't done when it ships, it's done when the people running it day-to-day don't need the project manager anymore.</p>
+          <p>A project isn't done when it ships — it's done when the people running it day-to-day don't need the project manager anymore.</p>
         </div>
       </div>
     </div>
@@ -81,16 +86,16 @@ $sector_count = count(array_unique(array_column($projects, 'sector')));
 
   <section class="section section-alt" id="work">
     <div class="container">
-      <div class="section-head">
+      <div class="section-head reveal">
         <div>
           <span class="ref">Selected work</span>
-          <h2>Projects delivered</h2>
+          <h2>16 delivered projects</h2>
         </div>
-        <p class="section-note">Each card links through to a short case-study and a live, interactive version of the project. Explore each project tool feed it real data from your case project, and use the output in your report and decision making.</p>
+        <p class="section-note">Each card links through to a short case study and a live, interactive version of the project.</p>
       </div>
       <div class="project-grid">
         <?php foreach ($projects as $i => $project): ?>
-          <a class="project-card" href="project.php?id=<?= urlencode($project['id']) ?>">
+          <a class="project-card reveal" style="transition-delay: <?= (int) min($i * 60, 480) ?>ms" href="project.php?id=<?= urlencode($project['id']) ?>">
             <div class="project-card-top">
               <?= render_project_mark($project['accent'], $project['id']) ?>
               <span class="card-ref"><?= h(project_ref($i)) ?></span>
@@ -111,9 +116,9 @@ $sector_count = count(array_unique(array_column($projects, 'sector')));
   <section class="section" id="about">
     <div class="container">
       <div class="about-grid">
-        <div>
+        <div class="reveal">
           <span class="ref">About</span>
-          <h2>Project management as a craft, not just a job title.</h2>
+          <h2>Project management as a craft, not a job title.</h2>
           <p>The idea behind this dedicated visibility is simple: instead of describing project management in the abstract, 
 		  show it, project by project, with enough detail that anyone can see how the work was actually done.</p>
           <p>Every case study on this site follows the same shape: what the project was, what made it hard, 
@@ -122,7 +127,7 @@ $sector_count = count(array_unique(array_column($projects, 'sector')));
 		  planning, executing, monitoring, and closing process groups. Also, students learn to scope, schedule, budget, 
 		  and de-risk projects using both predictive (waterfall) and adaptive (agile) approaches, aligned broadly with PMBOK and common agile frameworks.</p>
         </div>
-        <ul class="about-list">
+        <ul class="about-list reveal" style="transition-delay: 120ms">
           <li><span class="label">Focus</span><span class="value">Delivery &amp; program management</span></li>
           <li><span class="label">Typical engagement</span><span class="value">4–18 months</span></li>
           <li><span class="label">Sectors</span><span class="value">Retail, healthcare, public sector, tech &amp; more</span></li>
@@ -134,10 +139,10 @@ $sector_count = count(array_unique(array_column($projects, 'sector')));
 
   <section class="section section-alt" id="contact">
     <div class="container">
-      <div class="contact-panel corner-frame">
+      <div class="contact-panel corner-frame reveal">
         <span class="ref">Get in touch</span>
         <h2>Have a project that needs a plan?</h2>
-        <p>Send an email to Dr. T.O Omodunbi (Project Coordinator).</p>
+        <p>Send an email to Dr. T.O. Omodunbi (Project Coordinator).</p>
         <p><a class="btn btn-primary" href="mailto:tessydunbi@oauife.edu.ng">tessydunbi@oauife.edu.ng</a></p>
       </div>
     </div>
