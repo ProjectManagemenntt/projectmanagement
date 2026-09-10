@@ -32,10 +32,11 @@ require __DIR__ . '/includes/header.php';
 <?php else: ?>
 
   <section class="project-hero">
+    <?= render_hero_background($project) ?>
     <div class="container">
       <p class="breadcrumb"><a href="index.php">Work</a> / <?= h($project['title']) ?></p>
       <div class="project-hero-top">
-        <div>
+        <div class="reveal">
           <span class="category"><?= h($project['category']) ?></span>
           <h1><?= h($project['title']) ?></h1>
           <div class="tag-list">
@@ -44,9 +45,11 @@ require __DIR__ . '/includes/header.php';
             <?php endforeach; ?>
           </div>
         </div>
-        <?= render_project_mark($project['accent'], $project['id'], 80) ?>
+        <div class="reveal" style="transition-delay: 120ms">
+          <?= render_project_mark($project['accent'], $project['id'], 80) ?>
+        </div>
       </div>
-      <div class="meta-row">
+      <div class="meta-row reveal" style="transition-delay: 200ms">
         <div>
           <span class="meta-label">Reference</span>
           <span class="meta-value"><?= h(project_ref($index)) ?></span>
@@ -66,7 +69,7 @@ require __DIR__ . '/includes/header.php';
   <section class="section">
     <div class="container">
       <div class="project-body">
-        <div class="project-copy">
+        <div class="project-copy reveal">
           <span class="ref">Overview</span>
           <h2>What this project was</h2>
           <p><?= h($project['overview']) ?></p>
@@ -84,7 +87,7 @@ require __DIR__ . '/includes/header.php';
           <p><?= h($project['outcome']) ?></p>
         </div>
 
-        <aside class="live-panel corner-frame">
+        <aside class="live-panel corner-frame reveal" style="transition-delay: 140ms">
           <h3>Live interactive project</h3>
           <p class="status-line"><span class="status-dot" aria-hidden="true"></span>Available to explore</p>
           <p>Step through the actual tools and views used to run this project — timelines, boards, and status reporting, exactly as built.</p>
@@ -102,7 +105,7 @@ require __DIR__ . '/includes/header.php';
   ?>
   <section class="section section-alt">
     <div class="container">
-      <div class="section-head">
+      <div class="section-head reveal">
         <div>
           <span class="ref">More work</span>
           <h2>Other projects</h2>
@@ -110,10 +113,10 @@ require __DIR__ . '/includes/header.php';
         <a href="index.php#work">View all projects →</a>
       </div>
       <div class="related-grid">
-        <?php foreach ($related as $rp):
+        <?php foreach ($related as $ri => $rp):
           $rp_index = array_search($rp['id'], array_column($all_projects, 'id'), true);
         ?>
-          <a class="project-card" href="project.php?id=<?= urlencode($rp['id']) ?>">
+          <a class="project-card reveal" style="transition-delay: <?= (int) ($ri * 100) ?>ms" href="project.php?id=<?= urlencode($rp['id']) ?>">
             <div class="project-card-top">
               <?= render_project_mark($rp['accent'], $rp['id']) ?>
               <span class="card-ref"><?= h(project_ref($rp_index)) ?></span>
