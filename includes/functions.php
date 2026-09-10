@@ -43,26 +43,17 @@ function h(string $value): string {
 }
 
 /**
- * Render a small blueprint-style SVG mark for a project card.
- *
- * `$icon` is a named key that picks a motif matched to the project's
- * subject matter (see ICON_LIBRARY below) — e.g. 'clinical' for a health
- * project, 'dynamics' for a stability/control-systems project. If a key
- * isn't found, it falls back to one of six generic abstract motifs chosen
- * from the old numeric 1–6 scheme, so existing placeholder entries with an
- * integer `accent` keep working untouched.
- *
- * To add a new themed icon: add a case to ICON_LIBRARY below, then set
- * 'accent' => 'your-new-key' on the matching project in data/projects.php.
+ * Look up the inner SVG path markup for a project's icon motif, without
+ * wrapping it in an <svg> tag. Shared by render_project_mark() (small card
+ * icon) and render_hero_background() (large faint watermark).
  */
-function render_project_mark($icon, string $seed = '', int $size = 64): string {
+function project_mark_inner($icon, string $seed = ''): string {
   $n = 0;
   foreach (str_split($seed) as $ch) {
     $n += ord($ch);
   }
   $o1 = $n % 9;
   $o2 = ($n * 3) % 7;
-  $vb = 64;
 
   $library = [
     // Health / clinical / predictive-risk projects.
@@ -73,51 +64,12 @@ function render_project_mark($icon, string $seed = '', int $size = 64): string {
     // care rather than acute/diagnostic — kept visually distinct from 'clinical').
     'wellbeing' => '<path d="M32 48 C14 36 8 22 18 14 C25 9 32 15 32 15 C32 15 39 9 46 14 C56 22 50 36 32 48 Z" />
       <path d="M23 27 L29 33 L42 20" />',
-	  
-	  // Children's / education / block-based learning platforms.
-	  'learn' => '<rect x="8" y="30" width="20" height="16" rx="2" />
-	    <rect x="34" y="8" width="20" height="16" rx="2" />
-		  <path d="M28 38 H34 V16" />
-		  <path d="M48 30 V38" /><path d="M44 34 H52" />',
-		
-	  // Academic administration / student–supervisor workflow platforms.
-	  'academic' => '<path d="M32 10 L58 22 L32 34 L6 22 Z" />
-		  <path d="M14 24 V32 C14 36 22 40 32 40 C42 40 50 36 50 32 V24" stroke-opacity="0.5" />
-		  <path d="M32 34 V44" />
-		  <circle cx="32" cy="47" r="2.2" fill="currentColor" stroke="none" />',
-		
-	  // Lost-and-found / campus item registry & search platforms.
-	  'lostfound' => '<rect x="14" y="26" width="20" height="16" rx="2" />
-		  <path d="M20 26 V20 C20 17 22 15 24 15 C26 15 28 17 28 20 V26" />
-		  <circle cx="42" cy="36" r="9" />
-		  <path d="M48.5 42.5 L56 50" />',
-		
-	  // Scholarship / grant / award & recognition programs.
-	  'award' => '<circle cx="32" cy="24" r="14" />
-		  <circle cx="32" cy="24" r="3" fill="currentColor" stroke="none" />
-		  <path d="M23 36 L16 54 L32 45 L48 54 L41 36" />',
 
-	  // Computer-based testing / examination & assessment platforms.
-	  'exam' => '<rect x="10" y="8" width="30" height="44" rx="2" />
- 		 <path d="M16 18 H34" />
-  		<path d="M16 27 H21" /><rect x="23" y="24" width="8" height="6" /><path d="M33 27 H34" />
-  		<path d="M16 36 H30" />
-  		<path d="M42 44 L54 32 L58 36 L46 48 Z" />',
-
-	  // Document / past-paper / resource repository platforms.
-	  'repository' => '<rect x="12" y="16" width="28" height="36" rx="2" stroke-opacity="0.4" />
-		<rect x="16" y="12" width="28" height="36" rx="2" stroke-opacity="0.7" />
-		<rect x="20" y="8" width="28" height="36" rx="2" />
-		<path d="M26 18 H42" /><path d="M26 26 H42" /><path d="M26 34 H36" />
-		<circle cx="46" cy="42" r="8" fill="var(--bg)" />
-		<path d="M42.5 42 L45.5 45 L50 39" />',
-		
-	// Inventory, equipment & asset tracking / registers.
-	'inventory' => '<rect x="16" y="10" width="32" height="44" rx="2" />
-		<path d="M24 10 V6 H40 V10" />
-		<path d="M23 22 L27 26 L34 18" />
-		<path d="M23 34 H26" /><rect x="30" y="31" width="4" height="4" /><path d="M40 34 H41" />
-		<path d="M23 44 H41" stroke-opacity="0.5" />',
+    // Children's / education / block-based learning platforms.
+    'learn' => '<rect x="8" y="30" width="20" height="16" rx="2" />
+      <rect x="34" y="8" width="20" height="16" rx="2" />
+      <path d="M28 38 H34 V16" />
+      <path d="M48 30 V38" /><path d="M44 34 H52" />',
 
     // Mathematics, dynamical systems, control & stability projects.
     'dynamics' => '<path d="M32 32 C 32 20, 20 20, 20 30 C 20 42, 40 42, 40 28 C 40 16, 26 14, 22 22" />
@@ -162,53 +114,140 @@ function render_project_mark($icon, string $seed = '', int $size = 64): string {
       <path d="M32 12 V20" /><path d="M32 44 V52" />
       <path d="M12 32 H20" /><path d="M44 32 H52" />
       <circle cx="32" cy="32" r="4" fill="currentColor" stroke="none" />',
+
+    // Academic administration / student–supervisor workflow platforms.
+    'academic' => '<path d="M32 10 L58 22 L32 34 L6 22 Z" />
+      <path d="M14 24 V32 C14 36 22 40 32 40 C42 40 50 36 50 32 V24" stroke-opacity="0.5" />
+      <path d="M32 34 V44" />
+      <circle cx="32" cy="47" r="2.2" fill="currentColor" stroke="none" />',
+
+    // Lost-and-found / campus item registry & search platforms.
+    'lostfound' => '<rect x="14" y="26" width="20" height="16" rx="2" />
+      <path d="M20 26 V20 C20 17 22 15 24 15 C26 15 28 17 28 20 V26" />
+      <circle cx="42" cy="36" r="9" />
+      <path d="M48.5 42.5 L56 50" />',
+
+    // Scholarship / grant / award & recognition programs.
+    'award' => '<circle cx="32" cy="24" r="14" />
+      <circle cx="32" cy="24" r="3" fill="currentColor" stroke="none" />
+      <path d="M23 36 L16 54 L32 45 L48 54 L41 36" />',
+
+    // Computer-based testing / examination & assessment platforms.
+    'exam' => '<rect x="10" y="8" width="30" height="44" rx="2" />
+      <path d="M16 18 H34" />
+      <path d="M16 27 H21" /><rect x="23" y="24" width="8" height="6" /><path d="M33 27 H34" />
+      <path d="M16 36 H30" />
+      <path d="M42 44 L54 32 L58 36 L46 48 Z" />',
+
+    // Document / past-paper / resource repository platforms.
+    'repository' => '<rect x="12" y="16" width="28" height="36" rx="2" stroke-opacity="0.4" />
+      <rect x="16" y="12" width="28" height="36" rx="2" stroke-opacity="0.7" />
+      <rect x="20" y="8" width="28" height="36" rx="2" />
+      <path d="M26 18 H42" /><path d="M26 26 H42" /><path d="M26 34 H36" />
+      <circle cx="46" cy="42" r="8" fill="var(--bg)" />
+      <path d="M42.5 42 L45.5 45 L50 39" />',
+
+    // Inventory, equipment & asset tracking / registers.
+    'inventory' => '<rect x="16" y="10" width="32" height="44" rx="2" />
+      <path d="M24 10 V6 H40 V10" />
+      <path d="M23 22 L27 26 L34 18" />
+      <path d="M23 34 H26" /><rect x="30" y="31" width="4" height="4" /><path d="M40 34 H41" />
+      <path d="M23 44 H41" stroke-opacity="0.5" />',
   ];
 
   if (is_string($icon) && isset($library[$icon])) {
-    return '<svg class="mark" width="' . $size . '" height="' . $size . '" viewBox="0 0 ' . $vb . ' ' . $vb . '" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">' . $library[$icon] . '</svg>';
+    return $library[$icon];
   }
 
-  // Fallback: generic numbered motifs, unchanged, for any project that
-  // hasn't been given a themed key yet.
+  // Fallback: generic numbered motifs for any project without a themed key.
   switch (((int) $icon) % 6) {
     case 1:
-      $inner = '<circle cx="' . (20 + $o1) . '" cy="20" r="12" />
+      return '<circle cx="' . (20 + $o1) . '" cy="20" r="12" />
         <circle cx="44" cy="' . (44 - $o2) . '" r="6" />
         <path d="M28 28 L40 40" />
         <path d="M8 50 H24" />
         <path d="M40 8 H56" />';
-      break;
     case 2:
-      $inner = '<path d="M8 ' . (44 + $o1 - 4) . ' L24 20 L40 36 L56 12" />
+      return '<path d="M8 ' . (44 + $o1 - 4) . ' L24 20 L40 36 L56 12" />
         <circle cx="24" cy="20" r="3" />
         <circle cx="40" cy="36" r="3" />
         <circle cx="8" cy="' . (44 + $o1 - 4) . '" r="3" />
         <circle cx="56" cy="12" r="3" />';
-      break;
     case 3:
-      $inner = '<rect x="10" y="10" width="' . (28 + $o1) . '" height="20" rx="0" />
+      return '<rect x="10" y="10" width="' . (28 + $o1) . '" height="20" rx="0" />
         <rect x="' . (18 + $o2) . '" y="36" width="26" height="18" rx="0" />
         <path d="M24 30 V36" />';
-      break;
     case 4:
-      $inner = '<path d="M8 32 H56" />
+      return '<path d="M8 32 H56" />
         <path d="M16 32 V16 H32" />
         <path d="M40 32 V48 H24" />
         <circle cx="32" cy="16" r="3" />
         <circle cx="24" cy="48" r="3" />';
-      break;
     case 5:
-      $inner = '<path d="M12 ' . (12 + $o1) . ' L52 12 L52 ' . (52 - $o2) . ' L12 52 Z" />
+      return '<path d="M12 ' . (12 + $o1) . ' L52 12 L52 ' . (52 - $o2) . ' L12 52 Z" />
         <path d="M12 32 H52" />
         <path d="M32 12 V52" />';
-      break;
     default:
-      $inner = '<path d="M32 8 V24" />
+      return '<path d="M32 8 V24" />
         <path d="M32 40 V56" />
         <circle cx="32" cy="32" r="8" />
         <path d="M12 ' . (18 + $o1) . ' L20 26" />
         <path d="M52 ' . (46 - $o2) . ' L44 38" />';
   }
-
-  return '<svg class="mark" width="' . $size . '" height="' . $size . '" viewBox="0 0 ' . $vb . ' ' . $vb . '" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">' . $inner . '</svg>';
 }
+
+/**
+ * Render a small blueprint-style SVG mark for a project card.
+ *
+ * `$icon` is a named key that picks a motif matched to the project's
+ * subject matter (see project_mark_inner() above) — e.g. 'clinical' for a
+ * health project, 'dynamics' for a stability/control-systems project. If a
+ * key isn't found, it falls back to one of six generic abstract motifs
+ * chosen from the old numeric 1–6 scheme, so existing placeholder entries
+ * with an integer `accent` keep working untouched.
+ *
+ * To add a new themed icon: add a case to the library in project_mark_inner(),
+ * then set 'accent' => 'your-new-key' on the matching project in data/projects.php.
+ */
+function render_project_mark($icon, string $seed = '', int $size = 64): string {
+  $inner = project_mark_inner($icon, $seed);
+  return '<svg class="mark" width="' . $size . '" height="' . $size . '" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">' . $inner . '</svg>';
+}
+
+/**
+ * One of six subtle colour washes, picked deterministically from a
+ * project's category/sector so related projects share a family of colour
+ * without every hero background looking identical.
+ */
+function project_tint_hue(string $seed): int {
+  $hues = [214, 172, 34, 350, 262, 148]; // blue, teal, amber, rose, violet, green
+  $n = 0;
+  foreach (str_split($seed) as $ch) { $n += ord($ch); }
+  return $hues[$n % count($hues)];
+}
+
+/**
+ * Render the full-bleed hero background for a single project's detail page:
+ * a colour wash (tinted by category so related projects share a family of
+ * colour) plus a large, faint version of that same project's own icon
+ * motif, so the background is always specific to the project shown, never
+ * a generic stock image.
+ *
+ * To swap this for a real photo later: replace the returned <div> with
+ * `<img class="project-hero-bg" src="path/to/photo.jpg" alt="">`, or add a
+ * `background-image: url(...)` override on `.project-hero-bg` in
+ * assets/css/style.css.
+ */
+function render_hero_background(array $project): string {
+  $hue = project_tint_hue($project['category'] . $project['sector']);
+  $inner = project_mark_inner($project['accent'], $project['id']);
+  $n = 0;
+  foreach (str_split($project['id']) as $ch) { $n += ord($ch); }
+  $rotate = ($n % 40) - 20;
+  $shift = ($n % 120) - 60;
+
+  return '<div class="project-hero-bg" style="--tint-hue:' . (int) $hue . '">'
+    . '<svg class="project-hero-bg-mark" style="transform: translateX(' . $shift . 'px) rotate(' . $rotate . 'deg);" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="0.9" aria-hidden="true">' . $inner . '</svg>'
+    . '</div>';
+}
+
