@@ -97,6 +97,13 @@ function render_project_mark($icon, string $seed = '', int $size = 64): string {
 		  <circle cx="32" cy="24" r="3" fill="currentColor" stroke="none" />
 		  <path d="M23 36 L16 54 L32 45 L48 54 L41 36" />',
 
+	  // Computer-based testing / examination & assessment platforms.
+	  'exam' => '<rect x="10" y="8" width="30" height="44" rx="2" />
+ 		 <path d="M16 18 H34" />
+  		<path d="M16 27 H21" /><rect x="23" y="24" width="8" height="6" /><path d="M33 27 H34" />
+  		<path d="M16 36 H30" />
+  		<path d="M42 44 L54 32 L58 36 L46 48 Z" />',
+
     // Mathematics, dynamical systems, control & stability projects.
     'dynamics' => '<path d="M32 32 C 32 20, 20 20, 20 30 C 20 42, 40 42, 40 28 C 40 16, 26 14, 22 22" />
       <circle cx="32" cy="32" r="2.6" fill="currentColor" stroke="none" />
