@@ -107,7 +107,7 @@ return [
   [
    // group 6
     'id' => 'lifestyle-recommendation',
-    'title' => 'lifestyle Recommendation For Colorectal Cancer (CRC) Survivors',
+    'title' => 'Lifestyle Recommendation For Colorectal Cancer (CRC) Survivors',
     'category' => 'Health & lifestyle decision support',
     'duration' => '5 months',
     'sector' => 'Healthcare',
