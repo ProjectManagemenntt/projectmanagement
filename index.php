@@ -137,7 +137,7 @@ $sector_count = count(array_unique(array_column($projects, 'sector')));
       <div class="contact-panel corner-frame">
         <span class="ref">Get in touch</span>
         <h2>Have a project that needs a plan?</h2>
-        <p>Send an email to the address below.</p>
+        <p>Send an email to Dr. T.O Omodunbi (Project Coordinator).</p>
         <p><a class="btn btn-primary" href="mailto:tessydunbi@oauife.edu.ng">tessydunbi@oauife.edu.ng</a></p>
       </div>
     </div>
