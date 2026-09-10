@@ -89,9 +89,9 @@ $sector_count = count(array_unique(array_column($projects, 'sector')));
       <div class="section-head reveal">
         <div>
           <span class="ref">Selected work</span>
-          <h2>16 delivered projects</h2>
+          <h2>Projects delivered</h2>
         </div>
-        <p class="section-note">Each card links through to a short case study and a live, interactive version of the project.</p>
+        <p class="section-note">Each card links through to a short case-study and a live, interactive version of the project. Explore each project tool feed it real data from your case project, and use the output in your report and decision making.</p>
       </div>
       <div class="project-grid">
         <?php foreach ($projects as $i => $project): ?>
