@@ -84,6 +84,12 @@ function project_mark_inner($icon, string $seed = ''): string {
       <path d="M20 46 H44" />
       <path d="M28 38 V46" /><path d="M36 38 V46" />',
 
+    // Academic records, approval workflows & official-document generation.
+    'transcript' => '<rect x="14" y="8" width="30" height="48" rx="2" />
+      <path d="M20 18 H38" /><path d="M20 26 H38" /><path d="M20 34 H30" />
+      <circle cx="46" cy="44" r="10" />
+      <path d="M42 44 L45.5 47.5 L51 40" />',
+
     // Research repositories, innovation pipelines & technology transfer platforms.
     'research' => '<path d="M32 10 C22 10 16 18 16 26 C16 32 19 36 23 39 V46 H41 V39 C45 36 48 32 48 26 C48 18 42 10 32 10 Z" />
       <path d="M26 52 H38" />
